@@ -14,12 +14,12 @@
     </properties>
 
     <dependencies>
-<!--        &lt;!&ndash; https://mvnrepository.com/artifact/com.github.almasb/fxgl &ndash;&gt;-->
-<!--        <dependency>-->
-<!--            <groupId>com.github.almasb</groupId>-->
-<!--            <artifactId>fxgl</artifactId>-->
-<!--            <version>17.2</version>-->
-<!--        </dependency>-->
+        <!-- https://mvnrepository.com/artifact/com.github.almasb/fxgl -->
+        <dependency>
+            <groupId>com.github.almasb</groupId>
+            <artifactId>fxgl</artifactId>
+            <version>17.2</version>
+        </dependency>
     </dependencies>
 
 </project>
