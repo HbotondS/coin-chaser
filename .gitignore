@@ -24,8 +24,12 @@ hs_err_pid*
 
 .idea
 
-mvn_repo
+# containes local maven repository
+mvn
 
 *.tiled-session
 
 target
+
+# contains FXGL system data files.
+system
