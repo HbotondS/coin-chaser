@@ -3,7 +3,6 @@ package com.HbotondS.coin_chaser;
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
 import com.almasb.fxgl.entity.Entity;
-import com.almasb.fxgl.input.UserAction;
 import com.almasb.fxgl.input.virtual.VirtualButton;
 import com.almasb.fxgl.logging.Logger;
 import javafx.scene.input.KeyCode;
@@ -17,7 +16,7 @@ import static com.almasb.fxgl.dsl.FXGLForKtKt.getGameWorld;
 public class Main extends GameApplication {
 
     private Entity player;
-    private Logger logger = Logger.get(Main.class);
+    private final Logger logger = Logger.get(Main.class);
 
     @Override
     protected void initSettings(GameSettings settings) {
@@ -49,34 +48,19 @@ public class Main extends GameApplication {
 
     @Override
     protected void initInput() {
-        getInput().addAction(new UserAction("left") {
-            @Override
-            protected void onAction() {
-                player.getComponent(PlayerComponent.class).left();
-            }
+        getInput().addAction(new MyInputAction.Builder("left")
+                .setOnAction(() -> player.getComponent(PlayerComponent.class).left())
+                .setOnActionEnd(() -> player.getComponent(PlayerComponent.class).stop())
+                .build(), KeyCode.A, VirtualButton.LEFT);
 
-            @Override
-            protected void onActionEnd() {
-                player.getComponent(PlayerComponent.class).stop();
-            }
-        }, KeyCode.A, VirtualButton.LEFT);
-        getInput().addAction(new UserAction("right") {
-            @Override
-            protected void onAction() {
-                player.getComponent(PlayerComponent.class).right();
-            }
+        getInput().addAction(new MyInputAction.Builder("right")
+                .setOnAction(() -> player.getComponent(PlayerComponent.class).right())
+                .setOnActionEnd(() -> player.getComponent(PlayerComponent.class).stop())
+                .build(), KeyCode.D, VirtualButton.RIGHT);
 
-            @Override
-            protected void onActionEnd() {
-                player.getComponent(PlayerComponent.class).stop();
-            }
-        }, KeyCode.D, VirtualButton.RIGHT);
-        getInput().addAction(new UserAction("jump") {
-            @Override
-            protected void onAction() {
-                player.getComponent(PlayerComponent.class).jump();
-            }
-        }, KeyCode.W, VirtualButton.UP);
+        getInput().addAction(new MyInputAction.Builder("jump")
+                .setOnAction(() -> player.getComponent(PlayerComponent.class).jump())
+                .build(), KeyCode.W, VirtualButton.UP);
     }
 
     public static void main(String[] args) {
