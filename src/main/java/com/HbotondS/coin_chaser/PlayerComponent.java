@@ -17,11 +17,11 @@ public class PlayerComponent extends Component {
     }
 
     public void left() {
-        physics.setVelocityX(-200);
+        physics.setVelocityX(-400);
     }
 
     public void right() {
-        physics.setVelocityX(200);
+        physics.setVelocityX(400);
     }
 
     public void stop() {
@@ -33,7 +33,7 @@ public class PlayerComponent extends Component {
             return;
         }
 
-        physics.setVelocityY(-600);
+        physics.setVelocityY(-1000);
 
         jumps = true;
     }

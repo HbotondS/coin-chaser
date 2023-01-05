@@ -5,15 +5,19 @@ import com.almasb.fxgl.app.GameSettings;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.input.UserAction;
 import com.almasb.fxgl.input.virtual.VirtualButton;
+import com.almasb.fxgl.logging.Logger;
 import javafx.scene.input.KeyCode;
 
 import static com.almasb.fxgl.dsl.FXGL.getInput;
+import static com.almasb.fxgl.dsl.FXGL.getPhysicsWorld;
+import static com.almasb.fxgl.dsl.FXGL.onCollisionBegin;
 import static com.almasb.fxgl.dsl.FXGL.setLevelFromMap;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.getGameWorld;
 
 public class Main extends GameApplication {
 
     private Entity player;
+    private Logger logger = Logger.get(Main.class);
 
     @Override
     protected void initSettings(GameSettings settings) {
@@ -27,6 +31,16 @@ public class Main extends GameApplication {
         setLevelFromMap("tmx/map.tmx");
 
         player = getGameWorld().spawn("player", 200, 200);
+    }
+
+    @Override
+    protected void initPhysics() {
+        getPhysicsWorld().setGravity(0, 1000);
+        
+        onCollisionBegin(EntityType.PLAYER, EntityType.COIN, (player, coin) -> {
+            coin.removeFromWorld();
+            logger.info("collision with coin");
+        });
     }
 
     @Override
