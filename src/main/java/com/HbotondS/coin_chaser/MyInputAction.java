@@ -20,12 +20,16 @@ public class MyInputAction extends UserAction {
 
     @Override
     protected void onAction() {
-        this.onAction.run();
+        if (this.onAction != null) {
+            this.onAction.run();
+        }
     }
 
     @Override
     protected void onActionEnd() {
-        this.onActionEnd.run();
+        if (this.onActionEnd != null){
+            this.onActionEnd.run();
+        }
     }
 
     public static class Builder {
