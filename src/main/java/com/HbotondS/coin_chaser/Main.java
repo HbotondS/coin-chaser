@@ -23,6 +23,10 @@ public class Main extends GameApplication {
     protected void initSettings(GameSettings settings) {
         settings.setWidth(30 * 128);
         settings.setHeight(15 * 128);
+
+        settings.setTitle("Coin Chaser");
+        settings.setVersion("1.0-SNAPSHOT");
+        settings.setMainMenuEnabled(true);
     }
 
     @Override
@@ -36,7 +40,7 @@ public class Main extends GameApplication {
     @Override
     protected void initPhysics() {
         getPhysicsWorld().setGravity(0, 1000);
-        
+
         onCollisionBegin(EntityType.PLAYER, EntityType.COIN, (player, coin) -> {
             coin.removeFromWorld();
             logger.info("collision with coin");
