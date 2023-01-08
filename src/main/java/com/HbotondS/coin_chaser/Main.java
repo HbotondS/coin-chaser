@@ -30,7 +30,7 @@ public class Main extends GameApplication {
 
     @Override
     protected void initGame() {
-        getGameWorld().addEntityFactory(new MapFactory());
+        getGameWorld().addEntityFactory(new CoinChaseFactory());
         setLevelFromMap("tmx/map.tmx");
 
         player = getGameWorld().spawn("player", 200, 200);
