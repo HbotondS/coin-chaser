@@ -10,7 +10,7 @@ class PlayerComponentKt: Component() {
     override fun onAdded() {
         physics.onGroundProperty().addListener { _, _, isOnGround ->
             if (isOnGround) {
-                jumps = true
+                jumps = false
             }
         }
     }
