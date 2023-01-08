@@ -1,4 +1,4 @@
-package com.HbotondS.coin_chaser;
+package com.hbotonds.coin_chaser;
 
 import com.almasb.fxgl.entity.component.Component;
 import com.almasb.fxgl.physics.PhysicsComponent;

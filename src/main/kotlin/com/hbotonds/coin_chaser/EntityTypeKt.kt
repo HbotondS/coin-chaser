@@ -1,4 +1,4 @@
-package com.HbotondS.coin_chaser
+package com.hbotonds.coin_chaser
 
 enum class EntityTypeKt {
     PLATFORM,

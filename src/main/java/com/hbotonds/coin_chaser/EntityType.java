@@ -1,4 +1,4 @@
-package com.HbotondS.coin_chaser;
+package com.hbotonds.coin_chaser;
 
 public enum EntityType {
     PLATFORM,
