@@ -1,4 +1,4 @@
-package com.HbotondS.coin_chaser;
+package com.hbotonds.coin_chaser;
 
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
@@ -30,7 +30,7 @@ public class Main extends GameApplication {
 
     @Override
     protected void initGame() {
-        getGameWorld().addEntityFactory(new MapFactory());
+        getGameWorld().addEntityFactory(new CoinChaseFactory());
         setLevelFromMap("tmx/map.tmx");
 
         player = getGameWorld().spawn("player", 200, 200);

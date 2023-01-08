@@ -1,4 +1,4 @@
-package com.HbotondS.coin_chaser;
+package com.hbotonds.coin_chaser;
 
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.EntityFactory;
@@ -17,7 +17,7 @@ import javafx.scene.shape.Rectangle;
 
 import static com.almasb.fxgl.dsl.FXGLForKtKt.entityBuilder;
 
-public class MapFactory implements EntityFactory {
+public class CoinChaseFactory implements EntityFactory {
 
     @Spawns("platform")
     public Entity newPlatform(SpawnData data) {
