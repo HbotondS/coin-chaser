@@ -49,10 +49,7 @@ class CoinChaserFactoryKt: EntityFactory {
     fun newCoin(data: SpawnData): Entity {
         return entityBuilder(data)
                 .type(EntityTypeKt.COIN)
-                .viewWithBBox(Circle(data.get("width") as Int / 2.0,
-                    data.get("height") as Int / 2.0 + 10,
-                    data.get("width") as Int / 2.0,
-                    Color.GOLD))
+                .viewWithBBox(Circle(60.0, 60.0, 60.0, Color.GOLD))
                 .with(CollidableComponent(true))
                 .build()
     }

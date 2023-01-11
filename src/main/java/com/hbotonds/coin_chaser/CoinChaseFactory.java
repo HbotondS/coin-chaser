@@ -50,10 +50,7 @@ public class CoinChaseFactory implements EntityFactory {
     public Entity newCoin(SpawnData data) {
         return entityBuilder(data)
                 .type(EntityType.COIN)
-                .viewWithBBox(new Circle(data.<Integer>get("width") / 2.f,
-                        data.<Integer>get("height") / 2.f + 10,
-                        data.<Integer>get("width") / 2.f,
-                        Color.GOLD))
+                .viewWithBBox(new Circle(60,60,60, Color.GOLD))
                 .with(new CollidableComponent(true))
                 .build();
     }

@@ -33,7 +33,8 @@ public class Main extends GameApplication {
         getGameWorld().addEntityFactory(new CoinChaseFactory());
         setLevelFromMap("tmx/map.tmx");
 
-        player = getGameWorld().spawn("player", 200, 200);
+        player = getGameWorld().spawn("player", 100, 1536);
+        CoinSpawner.spawnNewCoin();
     }
 
     @Override
@@ -42,6 +43,14 @@ public class Main extends GameApplication {
 
         onCollisionBegin(EntityType.PLAYER, EntityType.COIN, (player, coin) -> {
             coin.removeFromWorld();
+            while (true) {
+                Entity newCoin = CoinSpawner.spawnNewCoin();
+                if (coin.getPosition().equals(newCoin.getPosition())) {
+                    newCoin.removeFromWorld();
+                } else {
+                    break;
+                }
+            }
             logger.info("collision with coin");
         });
     }

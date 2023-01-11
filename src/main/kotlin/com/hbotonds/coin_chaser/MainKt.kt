@@ -26,7 +26,8 @@ class MainKt: GameApplication() {
         getGameWorld().addEntityFactory(CoinChaserFactoryKt())
         setLevelFromMap("tmx/map.tmx")
 
-        player = getGameWorld().spawn("player", 200.0, 200.0)
+        player = getGameWorld().spawn("player", 100.0, 1536.0)
+        CoinSpawnerKt.spawnNewCoin()
     }
 
     override fun initPhysics() {
@@ -34,6 +35,14 @@ class MainKt: GameApplication() {
 
         onCollisionBegin(EntityTypeKt.PLAYER, EntityTypeKt.COIN) { _, coin ->
             coin.removeFromWorld()
+            while (true) {
+                val newCoin = CoinSpawnerKt.spawnNewCoin()
+                if (coin.position.equals(newCoin.position)) {
+                    newCoin.removeFromWorld()
+                } else {
+                    break
+                }
+            }
             logger.info("collision with coin")
         }
     }

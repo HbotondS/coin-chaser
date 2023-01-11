@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.9" tiledversion="1.9.2" orientation="orthogonal" renderorder="right-down" width="30" height="15" tilewidth="128" tileheight="128" infinite="0" nextlayerid="3" nextobjectid="13">
+<map version="1.9" tiledversion="1.9.2" orientation="orthogonal" renderorder="right-down" width="30" height="15" tilewidth="128" tileheight="128" infinite="0" nextlayerid="3" nextobjectid="19">
  <tileset firstgid="1" name="map_tileset" tilewidth="128" tileheight="128" tilecount="36" columns="6">
   <image source="map_tileset.png" width="768" height="768"/>
  </tileset>
@@ -28,6 +28,5 @@
   <object id="5" class="platform" x="1022" y="900" width="386" height="118"/>
   <object id="7" class="platform" x="1794" y="1160" width="382" height="120"/>
   <object id="9" class="platform" x="2570" y="1420" width="1266" height="234"/>
-  <object id="11" class="coin" x="1165.33" y="777.333" width="100" height="110.667"/>
  </objectgroup>
 </map>
