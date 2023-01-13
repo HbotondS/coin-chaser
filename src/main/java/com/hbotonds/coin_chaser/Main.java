@@ -6,12 +6,20 @@ import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.input.virtual.VirtualButton;
 import com.almasb.fxgl.logging.Logger;
 import javafx.scene.input.KeyCode;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 
+import java.util.Map;
+
+import static com.almasb.fxgl.dsl.FXGL.getGameScene;
+import static com.almasb.fxgl.dsl.FXGL.getGameWorld;
 import static com.almasb.fxgl.dsl.FXGL.getInput;
 import static com.almasb.fxgl.dsl.FXGL.getPhysicsWorld;
+import static com.almasb.fxgl.dsl.FXGL.getUIFactoryService;
+import static com.almasb.fxgl.dsl.FXGL.getip;
+import static com.almasb.fxgl.dsl.FXGL.inc;
 import static com.almasb.fxgl.dsl.FXGL.onCollisionBegin;
 import static com.almasb.fxgl.dsl.FXGL.setLevelFromMap;
-import static com.almasb.fxgl.dsl.FXGLForKtKt.getGameWorld;
 
 public class Main extends GameApplication {
 
@@ -29,6 +37,11 @@ public class Main extends GameApplication {
     }
 
     @Override
+    protected void initGameVars(Map<String, Object> vars) {
+        vars.put("score", 0);
+    }
+
+    @Override
     protected void initGame() {
         getGameWorld().addEntityFactory(new CoinChaseFactory());
         setLevelFromMap("tmx/map.tmx");
@@ -43,6 +56,7 @@ public class Main extends GameApplication {
 
         onCollisionBegin(EntityType.PLAYER, EntityType.COIN, (player, coin) -> {
             coin.removeFromWorld();
+            inc("score", +1);
             while (true) {
                 Entity newCoin = CoinSpawner.spawnNewCoin();
                 if (coin.getPosition().equals(newCoin.getPosition())) {
@@ -70,6 +84,17 @@ public class Main extends GameApplication {
         getInput().addAction(new MyInputAction.Builder("jump")
                 .setOnAction(() -> player.getComponent(PlayerComponent.class).jump())
                 .build(), KeyCode.W, VirtualButton.UP);
+    }
+
+    @Override
+    protected void initUI() {
+        Text scoreTxt = getUIFactoryService().newText("", Color.BLACK, 30);
+        scoreTxt.textProperty().bind(getip("score").asString());
+        scoreTxt.setTranslateX(30 * 128 - 20);
+        scoreTxt.setTranslateY(30);
+        scoreTxt.setStroke(Color.BLACK);
+
+        getGameScene().addUINode(scoreTxt);
     }
 
     public static void main(String[] args) {

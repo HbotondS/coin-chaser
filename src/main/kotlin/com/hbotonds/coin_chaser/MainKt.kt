@@ -8,6 +8,7 @@ import com.almasb.fxgl.entity.Entity
 import com.almasb.fxgl.input.virtual.VirtualButton
 import com.almasb.fxgl.logging.Logger
 import javafx.scene.input.KeyCode
+import javafx.scene.paint.Color
 
 class MainKt: GameApplication() {
     private var player: Entity? = null
@@ -20,6 +21,10 @@ class MainKt: GameApplication() {
         settings!!.title = "Coin Chaser"
         settings.version = "1.0-SNAPSHOT"
         settings.isMainMenuEnabled = true
+    }
+
+    override fun initGameVars(vars: MutableMap<String, Any>) {
+        vars["score"] = 0
     }
 
     override fun initGame() {
@@ -35,6 +40,7 @@ class MainKt: GameApplication() {
 
         onCollisionBegin(EntityTypeKt.PLAYER, EntityTypeKt.COIN) { _, coin ->
             coin.removeFromWorld()
+            inc("score", +1)
             while (true) {
                 val newCoin = CoinSpawnerKt.spawnNewCoin()
                 if (coin.position.equals(newCoin.position)) {
@@ -61,6 +67,16 @@ class MainKt: GameApplication() {
         getInput().addAction(MyInputActionKt.Builder("jump")
                 .setOnAction { player?.getComponent(PlayerComponentKt::class.java)?.jump() }
                 .build(), KeyCode.W, VirtualButton.UP)
+    }
+
+    override fun initUI() {
+        val scoreTxt = getUIFactoryService().newText("", Color.BLACK, 30.0)
+        scoreTxt.textProperty().bind(FXGL.getip("score").asString())
+        scoreTxt.translateX = (30 * 128 - 20).toDouble()
+        scoreTxt.translateY = 30.0
+        scoreTxt.stroke = Color.BLACK
+
+        getGameScene().addUINode(scoreTxt)
     }
 }
 
