@@ -30,6 +30,7 @@ class MainKt: GameApplication() {
     override fun initGame() {
         getGameWorld().addEntityFactory(CoinChaserFactoryKt())
         setLevelFromMap("tmx/map.tmx")
+        spawn("background")
 
         player = getGameWorld().spawn("player", 100.0, 1536.0)
         CoinSpawnerKt.spawnNewCoin()

@@ -1,10 +1,12 @@
 package com.hbotonds.coin_chaser;
 
+import com.almasb.fxgl.dsl.views.ScrollingBackgroundView;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.EntityFactory;
 import com.almasb.fxgl.entity.SpawnData;
 import com.almasb.fxgl.entity.Spawns;
 import com.almasb.fxgl.entity.components.CollidableComponent;
+import com.almasb.fxgl.entity.components.IrremovableComponent;
 import com.almasb.fxgl.physics.BoundingShape;
 import com.almasb.fxgl.physics.HitBox;
 import com.almasb.fxgl.physics.PhysicsComponent;
@@ -16,8 +18,20 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 
 import static com.almasb.fxgl.dsl.FXGLForKtKt.entityBuilder;
+import static com.almasb.fxgl.dsl.FXGLForKtKt.getAppHeight;
+import static com.almasb.fxgl.dsl.FXGLForKtKt.getAppWidth;
+import static com.almasb.fxgl.dsl.FXGLForKtKt.texture;
 
 public class CoinChaseFactory implements EntityFactory {
+
+    @Spawns("background")
+    public Entity newBackground(SpawnData data) {
+        return entityBuilder()
+                .view(new ScrollingBackgroundView(texture("background/Background.png").getImage(), getAppWidth(), getAppHeight()))
+                .zIndex(-1)
+                .with(new IrremovableComponent())
+                .build();
+    }
 
     @Spawns("platform")
     public Entity newPlatform(SpawnData data) {

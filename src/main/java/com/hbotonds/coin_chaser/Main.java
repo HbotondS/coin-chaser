@@ -23,6 +23,7 @@ import static com.almasb.fxgl.dsl.FXGL.getip;
 import static com.almasb.fxgl.dsl.FXGL.inc;
 import static com.almasb.fxgl.dsl.FXGL.onCollisionBegin;
 import static com.almasb.fxgl.dsl.FXGL.setLevelFromMap;
+import static com.almasb.fxgl.dsl.FXGL.spawn;
 
 public class Main extends GameApplication {
 
@@ -48,6 +49,7 @@ public class Main extends GameApplication {
     protected void initGame() {
         getGameWorld().addEntityFactory(new CoinChaseFactory());
         setLevelFromMap("tmx/map.tmx");
+        spawn("background");
 
         player = getGameWorld().spawn("player", 100, 1536);
         CoinSpawner.spawnNewCoin();
