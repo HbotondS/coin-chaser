@@ -33,6 +33,15 @@ class MainKt: GameApplication() {
 
         player = getGameWorld().spawn("player", 100.0, 1536.0)
         CoinSpawnerKt.spawnNewCoin()
+
+        eventBuilder()
+                .`when` { player!!.position.y > 15 * 128 }
+                .thenRun {
+                    getDialogService().showMessageBox("Game over.") {
+                        getGameController().exit()
+                    }
+                }
+                .buildAndStart()
     }
 
     override fun initPhysics() {

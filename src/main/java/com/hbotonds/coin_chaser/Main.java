@@ -11,6 +11,9 @@ import javafx.scene.text.Text;
 
 import java.util.Map;
 
+import static com.almasb.fxgl.dsl.FXGL.eventBuilder;
+import static com.almasb.fxgl.dsl.FXGL.getDialogService;
+import static com.almasb.fxgl.dsl.FXGL.getGameController;
 import static com.almasb.fxgl.dsl.FXGL.getGameScene;
 import static com.almasb.fxgl.dsl.FXGL.getGameWorld;
 import static com.almasb.fxgl.dsl.FXGL.getInput;
@@ -48,6 +51,11 @@ public class Main extends GameApplication {
 
         player = getGameWorld().spawn("player", 100, 1536);
         CoinSpawner.spawnNewCoin();
+
+        eventBuilder()
+                .when(() -> player.getPosition().getY() > 15 * 128)
+                .thenRun(() -> getDialogService().showMessageBox("Game over.", () -> getGameController().exit()))
+                .buildAndStart();
     }
 
     @Override
