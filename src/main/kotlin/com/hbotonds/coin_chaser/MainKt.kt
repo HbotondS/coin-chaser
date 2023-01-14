@@ -25,6 +25,7 @@ class MainKt: GameApplication() {
 
     override fun initGameVars(vars: MutableMap<String, Any>) {
         vars["score"] = 0
+        vars["coins2NextLvl"] = 3
     }
 
     override fun initGame() {
@@ -51,6 +52,9 @@ class MainKt: GameApplication() {
         onCollisionBegin(EntityTypeKt.PLAYER, EntityTypeKt.COIN) { _, coin ->
             coin.removeFromWorld()
             inc("score", +1)
+            if (geti("coins2NextLvl") > 0) {
+                inc("coins2NextLvl", -1)
+            }
             while (true) {
                 val newCoin = CoinSpawnerKt.spawnNewCoin()
                 if (coin.position.equals(newCoin.position)) {
@@ -81,12 +85,21 @@ class MainKt: GameApplication() {
 
     override fun initUI() {
         val scoreTxt = getUIFactoryService().newText("", Color.BLACK, 30.0)
-        scoreTxt.textProperty().bind(FXGL.getip("score").asString())
-        scoreTxt.translateX = (30 * 128 - 20).toDouble()
+        scoreTxt.textProperty().bind(getip("score").asString())
+        scoreTxt.translateX = (30 * 128 - 30).toDouble()
         scoreTxt.translateY = 30.0
         scoreTxt.stroke = Color.BLACK
 
-        getGameScene().addUINode(scoreTxt)
+        val coins2NextLvlTxt = getUIFactoryService().newText("", Color.BLACK, 30.0)
+        coins2NextLvlTxt
+                .textProperty()
+                .bind(getip("coins2NextLvl").asString("Coins required for the next level: %d"))
+
+        coins2NextLvlTxt.translateX = (26 * 128).toDouble()
+        coins2NextLvlTxt.translateY = (15 * 128 - 20).toDouble()
+        coins2NextLvlTxt.stroke = Color.BLACK
+
+        getGameScene().addUINodes(scoreTxt, coins2NextLvlTxt)
     }
 }
 

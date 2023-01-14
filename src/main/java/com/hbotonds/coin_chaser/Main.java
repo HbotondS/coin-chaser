@@ -19,6 +19,7 @@ import static com.almasb.fxgl.dsl.FXGL.getGameWorld;
 import static com.almasb.fxgl.dsl.FXGL.getInput;
 import static com.almasb.fxgl.dsl.FXGL.getPhysicsWorld;
 import static com.almasb.fxgl.dsl.FXGL.getUIFactoryService;
+import static com.almasb.fxgl.dsl.FXGL.geti;
 import static com.almasb.fxgl.dsl.FXGL.getip;
 import static com.almasb.fxgl.dsl.FXGL.inc;
 import static com.almasb.fxgl.dsl.FXGL.onCollisionBegin;
@@ -43,6 +44,7 @@ public class Main extends GameApplication {
     @Override
     protected void initGameVars(Map<String, Object> vars) {
         vars.put("score", 0);
+        vars.put("coins2NextLvl", 3);
     }
 
     @Override
@@ -67,6 +69,9 @@ public class Main extends GameApplication {
         onCollisionBegin(EntityType.PLAYER, EntityType.COIN, (player, coin) -> {
             coin.removeFromWorld();
             inc("score", +1);
+            if (geti("coins2NextLvl") > 0) {
+                inc("coins2NextLvl", -1);
+            }
             while (true) {
                 Entity newCoin = CoinSpawner.spawnNewCoin();
                 if (coin.getPosition().equals(newCoin.getPosition())) {
@@ -100,11 +105,19 @@ public class Main extends GameApplication {
     protected void initUI() {
         Text scoreTxt = getUIFactoryService().newText("", Color.BLACK, 30);
         scoreTxt.textProperty().bind(getip("score").asString());
-        scoreTxt.setTranslateX(30 * 128 - 20);
+        scoreTxt.setTranslateX(30 * 128 - 30);
         scoreTxt.setTranslateY(30);
         scoreTxt.setStroke(Color.BLACK);
 
-        getGameScene().addUINode(scoreTxt);
+        Text coins2NextLvlTxt = getUIFactoryService().newText("", Color.BLACK, 30);
+        coins2NextLvlTxt
+                .textProperty()
+                .bind(getip("coins2NextLvl").asString("Coins required for the next level: %d"));
+        coins2NextLvlTxt.setTranslateX(26 * 128);
+        coins2NextLvlTxt.setTranslateY(15 * 128 - 20);
+        coins2NextLvlTxt.setStroke(Color.BLACK);
+
+        getGameScene().addUINodes(scoreTxt, coins2NextLvlTxt);
     }
 
     public static void main(String[] args) {
