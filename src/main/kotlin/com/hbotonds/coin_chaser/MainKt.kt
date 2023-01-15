@@ -14,15 +14,19 @@ import javafx.scene.input.KeyCode
 import javafx.scene.paint.Color
 
 class MainKt: GameApplication() {
-    private var player: Entity? = null
+    private lateinit var player: Entity
     private val logger: Logger = Logger.get(MainKt::class.java)
     private lateinit var coinCollected: CoinCollectedKt
 
-    override fun initSettings(settings: GameSettings?) {
-        settings?.width = 30 * 128
-        settings?.height = 15 * 128
+    private val TILE_LENGTH = 128
+    private val APP_HEIGHT = 15 * TILE_LENGTH
+    private val APP_WIDTH = 30 * TILE_LENGTH
 
-        settings!!.title = "Coin Chaser"
+    override fun initSettings(settings: GameSettings) {
+        settings.width = APP_WIDTH
+        settings.height = APP_HEIGHT
+
+        settings.title = "Coin Chaser"
         settings.version = "1.0-SNAPSHOT"
         settings.isMainMenuEnabled = true
     }
@@ -41,7 +45,7 @@ class MainKt: GameApplication() {
         CoinSpawnerKt.spawnNewCoin()
 
         eventBuilder()
-                .`when` { player!!.position.y > 15 * 128 }
+                .`when` { player.position.y > getGameScene().appHeight }
                 .thenRun {
                     getDialogService().showMessageBox("Game over.") {
                         getGameController().exit()
@@ -73,24 +77,24 @@ class MainKt: GameApplication() {
 
     override fun initInput() {
         getInput().addAction(MyInputActionKt.Builder("left")
-                .setOnAction { player?.getComponent(PlayerComponentKt::class.java)?.left() }
-                .setOnActionEnd { player?.getComponent(PlayerComponentKt::class.java)?.stop() }
+                .setOnAction { player.getComponent(PlayerComponentKt::class.java)?.left() }
+                .setOnActionEnd { player.getComponent(PlayerComponentKt::class.java)?.stop() }
                 .build(), KeyCode.A, VirtualButton.LEFT)
 
         getInput().addAction(MyInputActionKt.Builder("right")
-                .setOnAction { player?.getComponent(PlayerComponentKt::class.java)?.right() }
-                .setOnActionEnd { player?.getComponent(PlayerComponentKt::class.java)?.stop() }
+                .setOnAction { player.getComponent(PlayerComponentKt::class.java)?.right() }
+                .setOnActionEnd { player.getComponent(PlayerComponentKt::class.java)?.stop() }
                 .build(), KeyCode.D, VirtualButton.RIGHT)
 
         getInput().addAction(MyInputActionKt.Builder("jump")
-                .setOnAction { player?.getComponent(PlayerComponentKt::class.java)?.jump() }
+                .setOnAction { player.getComponent(PlayerComponentKt::class.java)?.jump() }
                 .build(), KeyCode.W, VirtualButton.UP)
     }
 
     override fun initUI() {
         val scoreTxt = getUIFactoryService().newText("", Color.BLACK, 30.0)
         scoreTxt.textProperty().bind(getip("score").asString())
-        scoreTxt.translateX = (30 * 128 - 30).toDouble()
+        scoreTxt.translateX = (APP_WIDTH - 30).toDouble()
         scoreTxt.translateY = 30.0
         scoreTxt.stroke = Color.BLACK
 
@@ -99,8 +103,8 @@ class MainKt: GameApplication() {
                 .textProperty()
                 .bind(getip("coins2NextLvl").asString("Coins required for the next level: %d"))
 
-        coins2NextLvlTxt.translateX = (26 * 128).toDouble()
-        coins2NextLvlTxt.translateY = (15 * 128 - 20).toDouble()
+        coins2NextLvlTxt.translateX = (APP_WIDTH - 4 * TILE_LENGTH).toDouble()
+        coins2NextLvlTxt.translateY = (APP_HEIGHT - 20).toDouble()
         coins2NextLvlTxt.stroke = Color.BLACK
 
         getGameScene().addUINodes(scoreTxt, coins2NextLvlTxt)

@@ -5,22 +5,14 @@ import com.almasb.fxgl.physics.PhysicsComponent
 
 class PlayerComponentKt: Component() {
     private val physics: PhysicsComponent = PhysicsComponent()
-    private var jumps: Boolean = false
-
-    override fun onAdded() {
-        physics.onGroundProperty().addListener { _, _, isOnGround ->
-            if (isOnGround) {
-                jumps = false
-            }
-        }
-    }
+    private val speed = 400.0
 
     fun left() {
-        physics.velocityX = -400.0
+        physics.velocityX = -speed
     }
 
     fun right() {
-        physics.velocityX = 400.0
+        physics.velocityX = speed
     }
 
     fun stop() {
@@ -28,10 +20,8 @@ class PlayerComponentKt: Component() {
     }
 
     fun jump() {
-        if (jumps) {
-            return
+        if (physics.isOnGround) {
+            physics.velocityY = -1000.0
         }
-        physics.velocityY = -1000.0
-        jumps = true
     }
 }

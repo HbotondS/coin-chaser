@@ -18,7 +18,7 @@ public class CoinSpawner {
     }};
 
     public static Entity spawnNewCoin() {
-        Point2D position = positions.get((int) (Math.random() * positions.size()));
+        var position = positions.get((int) (Math.random() * positions.size()));
         return getGameWorld().spawn("coin", position);
     }
 }

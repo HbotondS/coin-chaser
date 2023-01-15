@@ -2,13 +2,11 @@ package com.hbotonds.coin_chaser
 
 import com.almasb.fxgl.input.UserAction
 
-class MyInputActionKt: UserAction {
+class MyInputActionKt(builder: Builder) : UserAction(builder.name) {
     private var onAction: Runnable? = null
     private var onActionEnd: Runnable? = null
 
-    constructor() : super ("")
-
-    constructor(builder: Builder) : super(builder.name) {
+    init {
         onAction = builder.onAction
         onActionEnd = builder.onActionEnd
     }

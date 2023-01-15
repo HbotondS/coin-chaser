@@ -5,23 +5,14 @@ import com.almasb.fxgl.physics.PhysicsComponent;
 
 public class PlayerComponent extends Component {
     private PhysicsComponent physics;
-    private boolean jumps = false;
-
-    @Override
-    public void onAdded() {
-        physics.onGroundProperty().addListener((obs, old, isOnGround) -> {
-            if (isOnGround) {
-                jumps = false;
-            }
-        });
-    }
+    private final int speed = 400;
 
     public void left() {
-        physics.setVelocityX(-400);
+        physics.setVelocityX(-speed);
     }
 
     public void right() {
-        physics.setVelocityX(400);
+        physics.setVelocityX(speed);
     }
 
     public void stop() {
@@ -29,12 +20,8 @@ public class PlayerComponent extends Component {
     }
 
     public void jump() {
-        if (jumps) {
-            return;
+        if (physics.isOnGround()) {
+            physics.setVelocityY(-1000);
         }
-
-        physics.setVelocityY(-1000);
-
-        jumps = true;
     }
 }

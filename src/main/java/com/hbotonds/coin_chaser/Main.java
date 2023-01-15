@@ -10,7 +10,6 @@ import com.hbotonds.coin_chaser.observer.NextLevel;
 import com.hbotonds.coin_chaser.observer.Score;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Text;
 
 import java.util.Map;
 
@@ -33,10 +32,14 @@ public class Main extends GameApplication {
     private CoinCollected coinCollected;
     private final Logger logger = Logger.get(Main.class);
 
+    private final int TILE_LENGTH = 128;
+    private final int APP_HEIGHT = 15 * TILE_LENGTH;
+    private final int APP_WIDTH = 30 * TILE_LENGTH;
+
     @Override
     protected void initSettings(GameSettings settings) {
-        settings.setWidth(30 * 128);
-        settings.setHeight(15 * 128);
+        settings.setWidth(APP_WIDTH);
+        settings.setHeight(APP_HEIGHT);
 
         settings.setTitle("Coin Chaser");
         settings.setVersion("1.0-SNAPSHOT");
@@ -59,7 +62,7 @@ public class Main extends GameApplication {
         CoinSpawner.spawnNewCoin();
 
         eventBuilder()
-                .when(() -> player.getPosition().getY() > 15 * 128)
+                .when(() -> player.getPosition().getY() > getGameScene().getAppHeight())
                 .thenRun(() -> getDialogService().showMessageBox("Game over.", () -> getGameController().exit()))
                 .buildAndStart();
 
@@ -76,7 +79,7 @@ public class Main extends GameApplication {
             coin.removeFromWorld();
             coinCollected.notifyObservers();
             while (true) {
-                Entity newCoin = CoinSpawner.spawnNewCoin();
+                var newCoin = CoinSpawner.spawnNewCoin();
                 if (coin.getPosition().equals(newCoin.getPosition())) {
                     newCoin.removeFromWorld();
                 } else {
@@ -106,18 +109,18 @@ public class Main extends GameApplication {
 
     @Override
     protected void initUI() {
-        Text scoreTxt = getUIFactoryService().newText("", Color.BLACK, 30);
+        var scoreTxt = getUIFactoryService().newText("", Color.BLACK, 30);
         scoreTxt.textProperty().bind(getip("score").asString());
-        scoreTxt.setTranslateX(30 * 128 - 30);
+        scoreTxt.setTranslateX(APP_WIDTH - 30);
         scoreTxt.setTranslateY(30);
         scoreTxt.setStroke(Color.BLACK);
 
-        Text coins2NextLvlTxt = getUIFactoryService().newText("", Color.BLACK, 30);
+        var coins2NextLvlTxt = getUIFactoryService().newText("", Color.BLACK, 30);
         coins2NextLvlTxt
                 .textProperty()
                 .bind(getip("coins2NextLvl").asString("Coins required for the next level: %d"));
-        coins2NextLvlTxt.setTranslateX(26 * 128);
-        coins2NextLvlTxt.setTranslateY(15 * 128 - 20);
+        coins2NextLvlTxt.setTranslateX(APP_WIDTH - 4 * TILE_LENGTH);
+        coins2NextLvlTxt.setTranslateY(APP_HEIGHT - 20);
         coins2NextLvlTxt.setStroke(Color.BLACK);
 
         getGameScene().addUINodes(scoreTxt, coins2NextLvlTxt);
