@@ -7,12 +7,16 @@ import com.almasb.fxgl.dsl.FXGL.Companion.setLevelFromMap
 import com.almasb.fxgl.entity.Entity
 import com.almasb.fxgl.input.virtual.VirtualButton
 import com.almasb.fxgl.logging.Logger
+import com.hbotonds.coin_chaser.observer.CoinCollectedKt
+import com.hbotonds.coin_chaser.observer.NextLevelKt
+import com.hbotonds.coin_chaser.observer.ScoreKt
 import javafx.scene.input.KeyCode
 import javafx.scene.paint.Color
 
 class MainKt: GameApplication() {
     private var player: Entity? = null
     private val logger: Logger = Logger.get(MainKt::class.java)
+    private lateinit var coinCollected: CoinCollectedKt
 
     override fun initSettings(settings: GameSettings?) {
         settings?.width = 30 * 128
@@ -44,17 +48,17 @@ class MainKt: GameApplication() {
                     }
                 }
                 .buildAndStart()
+
+        coinCollected = CoinCollectedKt()
+        coinCollected.addObserver(NextLevelKt())
+        coinCollected.addObserver(ScoreKt())
     }
 
     override fun initPhysics() {
         getPhysicsWorld().setGravity(0.0, 1000.0)
 
         onCollisionBegin(EntityTypeKt.PLAYER, EntityTypeKt.COIN) { _, coin ->
-            coin.removeFromWorld()
-            inc("score", +1)
-            if (geti("coins2NextLvl") > 0) {
-                inc("coins2NextLvl", -1)
-            }
+            coinCollected.notifyObservers()
             while (true) {
                 val newCoin = CoinSpawnerKt.spawnNewCoin()
                 if (coin.position.equals(newCoin.position)) {
