@@ -8,6 +8,7 @@ import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.input.virtual.VirtualButton;
 import com.almasb.fxgl.logging.Logger;
 import com.hbotonds.coin_chaser.mongodb.DbController;
+import com.hbotonds.coin_chaser.mongodb.gateway.HighScore;
 import com.hbotonds.coin_chaser.mongodb.gateway.HighScoreGateway;
 import com.hbotonds.coin_chaser.observer.CoinCollected;
 import com.hbotonds.coin_chaser.observer.NextLevel;
@@ -15,6 +16,7 @@ import com.hbotonds.coin_chaser.observer.Score;
 import com.hbotonds.coin_chaser.ui.MainMenu;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
+import org.bson.types.ObjectId;
 
 import java.util.Map;
 
@@ -26,6 +28,7 @@ import static com.almasb.fxgl.dsl.FXGL.getGameWorld;
 import static com.almasb.fxgl.dsl.FXGL.getInput;
 import static com.almasb.fxgl.dsl.FXGL.getPhysicsWorld;
 import static com.almasb.fxgl.dsl.FXGL.getUIFactoryService;
+import static com.almasb.fxgl.dsl.FXGL.geti;
 import static com.almasb.fxgl.dsl.FXGL.getip;
 import static com.almasb.fxgl.dsl.FXGL.onCollisionBegin;
 import static com.almasb.fxgl.dsl.FXGL.setLevelFromMap;
@@ -35,6 +38,8 @@ public class Main extends GameApplication {
 
     private Entity player;
     private CoinCollected coinCollected;
+    private DbController controller;
+    private HighScoreGateway gateway;
     private final Logger logger = Logger.get(Main.class);
 
     public static final int TILE_LENGTH = 128;
@@ -75,14 +80,23 @@ public class Main extends GameApplication {
 
         eventBuilder()
                 .when(() -> player.getPosition().getY() > getGameScene().getAppHeight())
-                .thenRun(() -> getDialogService().showMessageBox("Game over.", () -> getGameController().exit()))
+                .thenRun(() -> getDialogService().showMessageBox("Game over.", () -> {
+                    this.gateway = new HighScoreGateway(controller.getCollection());
+                    var highScore = new HighScore(
+                            ObjectId.get(),
+                            "Boti",
+                            geti("score")
+                    );
+                    gateway.insertOne(highScore);
+                    getGameController().exit();
+                }))
                 .buildAndStart();
 
         coinCollected = new CoinCollected();
         coinCollected.addObserver(new NextLevel());
         coinCollected.addObserver(new Score());
 
-        new Thread(DbController::connect).start();
+        new Thread(() -> this.controller = new DbController()).start();
     }
 
     @Override
