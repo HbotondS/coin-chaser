@@ -7,6 +7,8 @@ import com.almasb.fxgl.app.scene.SceneFactory;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.input.virtual.VirtualButton;
 import com.almasb.fxgl.logging.Logger;
+import com.hbotonds.coin_chaser.mongodb.DbController;
+import com.hbotonds.coin_chaser.mongodb.gateway.HighScoreGateway;
 import com.hbotonds.coin_chaser.observer.CoinCollected;
 import com.hbotonds.coin_chaser.observer.NextLevel;
 import com.hbotonds.coin_chaser.observer.Score;
@@ -79,6 +81,8 @@ public class Main extends GameApplication {
         coinCollected = new CoinCollected();
         coinCollected.addObserver(new NextLevel());
         coinCollected.addObserver(new Score());
+
+        new Thread(DbController::connect).start();
     }
 
     @Override
