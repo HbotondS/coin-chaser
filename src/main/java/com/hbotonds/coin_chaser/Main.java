@@ -2,12 +2,15 @@ package com.hbotonds.coin_chaser;
 
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
+import com.almasb.fxgl.app.scene.FXGLMenu;
+import com.almasb.fxgl.app.scene.SceneFactory;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.input.virtual.VirtualButton;
 import com.almasb.fxgl.logging.Logger;
 import com.hbotonds.coin_chaser.observer.CoinCollected;
 import com.hbotonds.coin_chaser.observer.NextLevel;
 import com.hbotonds.coin_chaser.observer.Score;
+import com.hbotonds.coin_chaser.ui.MainMenu;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 
@@ -32,7 +35,7 @@ public class Main extends GameApplication {
     private CoinCollected coinCollected;
     private final Logger logger = Logger.get(Main.class);
 
-    private final int TILE_LENGTH = 128;
+    public static final int TILE_LENGTH = 128;
     private final int APP_HEIGHT = 15 * TILE_LENGTH;
     private final int APP_WIDTH = 30 * TILE_LENGTH;
 
@@ -44,6 +47,13 @@ public class Main extends GameApplication {
         settings.setTitle("Coin Chaser");
         settings.setVersion("1.0-SNAPSHOT");
         settings.setMainMenuEnabled(true);
+
+        settings.setSceneFactory(new SceneFactory() {
+            @Override
+            public FXGLMenu newMainMenu() {
+                return new MainMenu();
+            }
+        });
     }
 
     @Override

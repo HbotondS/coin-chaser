@@ -2,23 +2,42 @@ package com.hbotonds.coin_chaser
 
 import com.almasb.fxgl.app.GameApplication
 import com.almasb.fxgl.app.GameSettings
-import com.almasb.fxgl.dsl.*
+import com.almasb.fxgl.app.scene.FXGLMenu
+import com.almasb.fxgl.app.scene.SceneFactory
 import com.almasb.fxgl.dsl.FXGL.Companion.setLevelFromMap
+import com.almasb.fxgl.dsl.eventBuilder
+import com.almasb.fxgl.dsl.getDialogService
+import com.almasb.fxgl.dsl.getGameController
+import com.almasb.fxgl.dsl.getGameScene
+import com.almasb.fxgl.dsl.getGameWorld
+import com.almasb.fxgl.dsl.getInput
+import com.almasb.fxgl.dsl.getPhysicsWorld
+import com.almasb.fxgl.dsl.getUIFactoryService
+import com.almasb.fxgl.dsl.getip
+import com.almasb.fxgl.dsl.onCollisionBegin
+import com.almasb.fxgl.dsl.spawn
 import com.almasb.fxgl.entity.Entity
 import com.almasb.fxgl.input.virtual.VirtualButton
 import com.almasb.fxgl.logging.Logger
 import com.hbotonds.coin_chaser.observer.CoinCollectedKt
 import com.hbotonds.coin_chaser.observer.NextLevelKt
 import com.hbotonds.coin_chaser.observer.ScoreKt
+import com.hbotonds.coin_chaser.ui.MainMenu
 import javafx.scene.input.KeyCode
 import javafx.scene.paint.Color
+import kotlin.collections.MutableMap
+import kotlin.collections.set
 
 class MainKt: GameApplication() {
     private lateinit var player: Entity
     private val logger: Logger = Logger.get(MainKt::class.java)
     private lateinit var coinCollected: CoinCollectedKt
 
-    private val TILE_LENGTH = 128
+    companion object {
+        @JvmStatic
+        val TILE_LENGTH = 128
+    }
+
     private val APP_HEIGHT = 15 * TILE_LENGTH
     private val APP_WIDTH = 30 * TILE_LENGTH
 
@@ -29,6 +48,12 @@ class MainKt: GameApplication() {
         settings.title = "Coin Chaser"
         settings.version = "1.0-SNAPSHOT"
         settings.isMainMenuEnabled = true
+
+        settings.sceneFactory = object : SceneFactory() {
+            override fun newMainMenu(): FXGLMenu {
+                return MainMenu()
+            }
+        }
     }
 
     override fun initGameVars(vars: MutableMap<String, Any>) {
