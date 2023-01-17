@@ -31,7 +31,7 @@ public class MainMenu extends FXGLMenu {
         box.setTranslateX(TILE_LENGTH);
         box.setTranslateY(10 * TILE_LENGTH - 10);
 
-        getContentRoot().getChildren().addAll(createBackground(), box);
+        getContentRoot().getChildren().addAll(createBackground(), createLogo(), box);
     }
 
     private Node createBackground() {
@@ -40,6 +40,14 @@ public class MainMenu extends FXGLMenu {
         iv.setImage(bg);
         iv.setFitHeight(getAppHeight());
         iv.setFitWidth(getAppWidth());
+        return iv;
+    }
+
+    private Node createLogo() {
+        var logo = texture("logo/coin-chaser-logo.png").getImage();
+        var iv = new ImageView(logo);
+        iv.setTranslateX(11 * TILE_LENGTH);
+        iv.setTranslateY(TILE_LENGTH);
         return iv;
     }
 
