@@ -4,6 +4,7 @@ import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
 import com.almasb.fxgl.app.scene.FXGLMenu;
 import com.almasb.fxgl.app.scene.SceneFactory;
+import com.almasb.fxgl.core.util.InputPredicates;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.input.virtual.VirtualButton;
 import com.almasb.fxgl.logging.Logger;
@@ -81,14 +82,23 @@ public class Main extends GameApplication {
         eventBuilder()
                 .when(() -> player.getPosition().getY() > getGameScene().getAppHeight())
                 .thenRun(() -> getDialogService().showMessageBox("Game over.", () -> {
-                    this.gateway = new HighScoreGateway(controller.getCollection());
-                    var highScore = new HighScore(
-                            ObjectId.get(),
-                            "Boti",
-                            geti("score")
-                    );
-                    gateway.insertOne(highScore);
-                    getGameController().exit();
+                    getDialogService().showInputBox("Please enter your name.",
+                            InputPredicates.ALPHANUM,
+                            (name) -> {
+                                if (name.isEmpty()) {
+                                    return;
+                                }
+
+                                this.gateway = new HighScoreGateway(controller.getCollection());
+                                var highScore = new HighScore(
+                                        ObjectId.get(),
+                                        name,
+                                        geti("score")
+                                );
+
+                                gateway.insertOne(highScore);
+                                getGameController().exit();
+                            });
                 }))
                 .buildAndStart();
 
