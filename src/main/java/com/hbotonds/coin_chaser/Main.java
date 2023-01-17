@@ -17,6 +17,7 @@ import com.hbotonds.coin_chaser.observer.Score;
 import com.hbotonds.coin_chaser.ui.MainMenu;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
+import lombok.Getter;
 import org.bson.types.ObjectId;
 
 import java.util.Map;
@@ -39,8 +40,10 @@ public class Main extends GameApplication {
 
     private Entity player;
     private CoinCollected coinCollected;
-    private DbController controller;
-    private HighScoreGateway gateway;
+    private static DbController controller;
+
+    @Getter
+    private static HighScoreGateway gateway;
     private final Logger logger = Logger.get(Main.class);
 
     public static final int TILE_LENGTH = 128;
@@ -88,8 +91,6 @@ public class Main extends GameApplication {
                                 if (name.isEmpty()) {
                                     return;
                                 }
-
-                                this.gateway = new HighScoreGateway(controller.getCollection());
                                 var highScore = new HighScore(
                                         ObjectId.get(),
                                         name,
@@ -105,8 +106,6 @@ public class Main extends GameApplication {
         coinCollected = new CoinCollected();
         coinCollected.addObserver(new NextLevel());
         coinCollected.addObserver(new Score());
-
-        new Thread(() -> this.controller = new DbController()).start();
     }
 
     @Override
@@ -165,6 +164,10 @@ public class Main extends GameApplication {
     }
 
     public static void main(String[] args) {
+        new Thread(() -> {
+            controller = new DbController();
+            gateway = new HighScoreGateway(controller.getCollection());
+        }).start();
         launch(args);
     }
 }
