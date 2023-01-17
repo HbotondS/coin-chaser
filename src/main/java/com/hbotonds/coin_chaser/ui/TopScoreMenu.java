@@ -1,10 +1,9 @@
 package com.hbotonds.coin_chaser.ui;
 
-import com.almasb.fxgl.entity.level.tiled.Tile;
+import com.almasb.fxgl.logging.Logger;
 import com.hbotonds.coin_chaser.Main;
 import com.hbotonds.coin_chaser.mongodb.gateway.HighScore;
 import com.mongodb.client.FindIterable;
-import javafx.beans.binding.Bindings;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -22,18 +21,23 @@ public class TopScoreMenu {
     private final Pane topScoreMenu = new Pane();
     private final Runnable toggleHighScores;
 
+    private final Logger logger = Logger.get(TopScoreMenu.class);
+
     public TopScoreMenu(Runnable toggleHighScores) {
         var namesTxtList = new VBox(15);
         var scoresTxtList = new VBox(15);
-        StreamSupport.stream(createTopScoreList().spliterator(), false)
-                .forEach(highScore -> {
-                    namesTxtList.getChildren().add(
-                            getUIFactoryService().newText(highScore.getName(), Color.GRAY, 50)
-                    );
-                    scoresTxtList.getChildren().add(
-                            getUIFactoryService().newText(Integer.toString(highScore.getScore()), Color.GRAY, 50)
-                    );
-                });
+        var topScoreList = createTopScoreList();
+        if (topScoreList != null) {
+            StreamSupport.stream(topScoreList.spliterator(), false)
+                    .forEach(highScore -> {
+                        namesTxtList.getChildren().add(
+                                getUIFactoryService().newText(highScore.getName(), Color.GRAY, 50)
+                        );
+                        scoresTxtList.getChildren().add(
+                                getUIFactoryService().newText(Integer.toString(highScore.getScore()), Color.GRAY, 50)
+                        );
+                    });
+        }
         var highScoreTxtList = new HBox(200,
                 namesTxtList,
                 scoresTxtList
@@ -60,7 +64,12 @@ public class TopScoreMenu {
     }
 
     private FindIterable<HighScore> createTopScoreList() {
-        return Main.getGateway().findTopScores();
+        try {
+            return Main.getGateway().findTopScores();
+        } catch (Exception e) {
+            logger.fatal("An error occurred while attempting to get top score:", e);
+            return null;
+        }
     }
 
     private TextButton createBackBtn() {

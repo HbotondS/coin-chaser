@@ -15,6 +15,7 @@ import com.hbotonds.coin_chaser.observer.CoinCollected;
 import com.hbotonds.coin_chaser.observer.NextLevel;
 import com.hbotonds.coin_chaser.observer.Score;
 import com.hbotonds.coin_chaser.ui.MainMenu;
+import com.mongodb.MongoServerUnavailableException;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 import lombok.Getter;
@@ -166,7 +167,11 @@ public class Main extends GameApplication {
     public static void main(String[] args) {
         new Thread(() -> {
             controller = new DbController();
-            gateway = new HighScoreGateway(controller.getCollection());
+            try {
+                gateway = new HighScoreGateway(controller.getCollection());
+            } catch (MongoServerUnavailableException e) {
+                e.printStackTrace();
+            }
         }).start();
         launch(args);
     }
