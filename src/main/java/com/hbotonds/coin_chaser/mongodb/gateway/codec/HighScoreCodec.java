@@ -9,7 +9,7 @@ import org.bson.codecs.EncoderContext;
 import org.bson.codecs.configuration.CodecRegistry;
 
 public class HighScoreCodec implements Codec<HighScore> {
-    private CodecRegistry codecRegistry;
+    private final CodecRegistry codecRegistry;
 
     public HighScoreCodec(CodecRegistry codecRegistry) {
         this.codecRegistry = codecRegistry;
@@ -17,16 +17,14 @@ public class HighScoreCodec implements Codec<HighScore> {
 
     @Override
     public HighScore decode(BsonReader bsonReader, DecoderContext decoderContext) {
+        var highScore = new HighScore();
+
         bsonReader.readStartDocument();
-        var id = bsonReader.readObjectId();
-        var name = bsonReader.readString("name");
-        var score = bsonReader.readInt32("score");
+        highScore.setId(bsonReader.readObjectId());
+        highScore.setName(bsonReader.readString("name"));
+        highScore.setScore(bsonReader.readInt32("score"));
         bsonReader.readEndDocument();
 
-        var highScore = new HighScore();
-        highScore.setId(id);
-        highScore.setName(name);
-        highScore.setScore(score);
         return highScore;
     }
 

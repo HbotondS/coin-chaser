@@ -27,11 +27,11 @@ public class HighScoreGateway {
     }
 
     public FindIterable<HighScore> findTopScores() {
-        var highScore = collection.find()
+        var highScores = collection.find()
                 .sort(descending("score"))
                 .limit(5);
         logger.info("Getting top 5 score");
-        highScore.forEach(o -> logger.info(o.toString()));
-        return highScore;
+        highScores.forEach(highScore -> logger.info(highScore.toString()));
+        return highScores;
     }
 }
