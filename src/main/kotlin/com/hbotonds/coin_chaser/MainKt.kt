@@ -22,10 +22,9 @@ import com.almasb.fxgl.logging.Logger
 import com.hbotonds.coin_chaser.observer.CoinCollectedKt
 import com.hbotonds.coin_chaser.observer.NextLevelKt
 import com.hbotonds.coin_chaser.observer.ScoreKt
-import com.hbotonds.coin_chaser.ui.MainMenu
+import com.hbotonds.coin_chaser.ui.MainMenuKt
 import javafx.scene.input.KeyCode
 import javafx.scene.paint.Color
-import kotlin.collections.MutableMap
 import kotlin.collections.set
 
 class MainKt: GameApplication() {
@@ -51,7 +50,7 @@ class MainKt: GameApplication() {
 
         settings.sceneFactory = object : SceneFactory() {
             override fun newMainMenu(): FXGLMenu {
-                return MainMenu()
+                return MainMenuKt()
             }
         }
     }
