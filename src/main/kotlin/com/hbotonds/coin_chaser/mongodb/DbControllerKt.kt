@@ -17,8 +17,8 @@ import org.bson.codecs.configuration.CodecRegistries.fromProviders
 import org.bson.codecs.configuration.CodecRegistries.fromRegistries
 import java.util.concurrent.TimeUnit
 
-class BbControllerKt {
-    private val logger = Logger.get(BbControllerKt::class.java)
+class DbControllerKt {
+    private val logger = Logger.get(DbControllerKt::class.java)
     private lateinit var database: MongoDatabase
     private lateinit var client: MongoClient
     private var connectionSuccessful: Boolean = false

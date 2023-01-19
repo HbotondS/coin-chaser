@@ -61,7 +61,7 @@
                 <version>0.0.6</version>
                 <configuration>
                     <launcher>game</launcher>
-                    <mainClass>com.hbotonds.coin_chaser.Main</mainClass>
+                    <mainClass>com.hbotonds.coin_chaser.CoinChaserApp</mainClass>
                 </configuration>
             </plugin>
             <plugin>

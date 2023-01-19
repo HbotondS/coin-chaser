@@ -39,7 +39,7 @@ import static com.almasb.fxgl.dsl.FXGL.onCollisionBegin;
 import static com.almasb.fxgl.dsl.FXGL.setLevelFromMap;
 import static com.almasb.fxgl.dsl.FXGL.spawn;
 
-public class Main extends GameApplication {
+public class CoinChaserApp extends GameApplication {
 
     private Entity player;
     private CoinCollected coinCollected;
@@ -47,7 +47,7 @@ public class Main extends GameApplication {
 
     @Getter
     private static HighScoreGateway gateway;
-    private final Logger logger = Logger.get(Main.class);
+    private final Logger logger = Logger.get(CoinChaserApp.class);
 
     public static final int TILE_LENGTH = 128;
     private final int APP_HEIGHT = 15 * TILE_LENGTH;
