@@ -3,16 +3,20 @@ package com.hbotonds.coin_chaser.ui.dialog
 import com.almasb.fxgl.core.util.EmptyRunnable
 import com.almasb.fxgl.dsl.getUIFactoryService
 import com.almasb.fxgl.ui.DialogFactoryService
+import javafx.beans.binding.Bindings
 import javafx.beans.property.ReadOnlyDoubleProperty
 import javafx.geometry.Insets
 import javafx.geometry.Pos
 import javafx.scene.Node
 import javafx.scene.control.Button
 import javafx.scene.control.TextField
+import javafx.scene.layout.Background
+import javafx.scene.layout.BackgroundFill
 import javafx.scene.layout.HBox
 import javafx.scene.layout.Pane
 import javafx.scene.layout.StackPane
 import javafx.scene.layout.VBox
+import javafx.scene.paint.Color
 import java.util.function.Consumer
 import java.util.function.Predicate
 import kotlin.math.max
@@ -39,6 +43,17 @@ class CustomDialogFactoryServiceKt: DialogFactoryService() {
         val btnNo = getUIFactoryService().newButton("No")
         btnYes.setOnAction { callback.accept(true) }
         btnNo.setOnAction { callback.accept(false) }
+
+        btnYes.backgroundProperty().bind(
+            Bindings.`when`(btnYes.hoverProperty())
+                .then(Background(BackgroundFill(Color.GREEN, null, null)))
+                .otherwise(Background(BackgroundFill(Color.DIMGRAY, null, null)))
+        )
+        btnNo.backgroundProperty().bind(
+            Bindings.`when`(btnNo.hoverProperty())
+                .then(Background(BackgroundFill(Color.RED, null, null)))
+                .otherwise(Background(BackgroundFill(Color.DIMGRAY, null, null)))
+        )
 
         val hBox = HBox(10.0, btnYes, btnNo)
         hBox.alignment = Pos.CENTER

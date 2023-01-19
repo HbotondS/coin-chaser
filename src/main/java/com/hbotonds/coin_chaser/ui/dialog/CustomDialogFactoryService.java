@@ -1,16 +1,20 @@
 package com.hbotonds.coin_chaser.ui.dialog;
 
 import com.almasb.fxgl.ui.DialogFactoryService;
+import javafx.beans.binding.Bindings;
 import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import lombok.val;
 
 import javax.naming.OperationNotSupportedException;
@@ -46,6 +50,18 @@ public class CustomDialogFactoryService extends DialogFactoryService {
         btnYes.setOnAction(event -> callback.accept(true));
         var btnNo = getUIFactoryService().newButton("No");
         btnNo.setOnAction(event -> callback.accept(false));
+
+        btnYes.backgroundProperty().bind(
+                Bindings.when(btnYes.hoverProperty())
+                        .then(new Background(new BackgroundFill(Color.GREEN, null, null)))
+                        .otherwise(new Background(new BackgroundFill(Color.DIMGRAY, null, null)))
+        );
+        btnNo.backgroundProperty().bind(
+                Bindings.when(btnNo.hoverProperty())
+                        .then(new Background(new BackgroundFill(Color.GREEN, null, null)))
+                        .otherwise(new Background(new BackgroundFill(Color.DIMGRAY, null, null)))
+        );
+
         var hbox = new HBox(10.0, btnYes, btnNo);
         hbox.setAlignment(Pos.CENTER);
 
