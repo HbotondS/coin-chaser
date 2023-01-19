@@ -2,9 +2,8 @@ package com.hbotonds.coin_chaser.ui
 
 import com.almasb.fxgl.dsl.getUIFactoryService
 import com.almasb.fxgl.logging.Logger
-import com.hbotonds.coin_chaser.Main
-import com.hbotonds.coin_chaser.MainKt
-import com.hbotonds.coin_chaser.MainKt.Companion.TILE_LENGTH
+import com.hbotonds.coin_chaser.CoinChaserAppKt
+import com.hbotonds.coin_chaser.CoinChaserAppKt.Companion.TILE_LENGTH
 import com.hbotonds.coin_chaser.mongodb.gateway.HighScoreKt
 import com.mongodb.client.FindIterable
 import javafx.scene.layout.HBox
@@ -58,7 +57,7 @@ class TopScoreMenuKt(toggleHighScores: Runnable) {
 
     private fun createTopScoreList(): FindIterable<HighScoreKt>? {
         try {
-            return MainKt.gateway.findTopScores()
+            return CoinChaserAppKt.gateway.findTopScores()
         } catch (e: Exception) {
             logger.fatal("An error occurred while attempting to get top score:", e)
             return null
@@ -67,8 +66,8 @@ class TopScoreMenuKt(toggleHighScores: Runnable) {
 
     private fun createBackBtn(): TextButtonKt {
         val backBtn = TextButtonKt("Back", toggleHighScores)
-        backBtn.translateX = Main.TILE_LENGTH.toDouble()
-        backBtn.translateY = (11 * Main.TILE_LENGTH + 10).toDouble()
+        backBtn.translateX = TILE_LENGTH.toDouble()
+        backBtn.translateY = (11 * TILE_LENGTH + 10).toDouble()
 
         return backBtn
     }

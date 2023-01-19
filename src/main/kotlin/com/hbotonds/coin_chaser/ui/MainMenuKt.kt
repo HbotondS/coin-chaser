@@ -5,8 +5,7 @@ import com.almasb.fxgl.app.scene.MenuType
 import com.almasb.fxgl.dsl.getAppHeight
 import com.almasb.fxgl.dsl.getAppWidth
 import com.almasb.fxgl.dsl.texture
-import com.hbotonds.coin_chaser.MainKt.Companion.TILE_LENGTH
-import com.hbotonds.coin_chaser.main
+import com.hbotonds.coin_chaser.CoinChaserAppKt.Companion.TILE_LENGTH
 import javafx.scene.Node
 import javafx.scene.image.ImageView
 import javafx.scene.layout.Pane
@@ -18,16 +17,11 @@ class MainMenuKt : FXGLMenu(MenuType.MAIN_MENU) {
     private var mainMenuBtns: VBox
 
     init {
-        val btnStart = TextButtonKt("Play", this::fireNewGame)
-        val btnOptions = TextButtonKt("Options") { }
-        val btnTopScores = TextButtonKt("Top Scores", this::toggleHighScores)
-        val btnExit = TextButtonKt("Exit", this::fireExit)
-
         mainMenuBtns = VBox(15.0,
-                btnStart,
-                btnOptions,
-                btnTopScores,
-                btnExit
+            TextButtonKt("Play", this::fireNewGame),
+            TextButtonKt("Options") { },
+            TextButtonKt("Top Scores", this::toggleHighScores),
+            TextButtonKt("Exit", this::fireExit)
         )
         mainMenuBtns.translateX = TILE_LENGTH.toDouble()
         mainMenuBtns.translateY = (9 * TILE_LENGTH + 40).toDouble()
@@ -38,11 +32,9 @@ class MainMenuKt : FXGLMenu(MenuType.MAIN_MENU) {
     private fun toggleHighScores() {
         if (!inScoresMenu) {
             scoresMenu = TopScoreMenuKt(this::toggleHighScores).topScoreMenu
-            contentRoot.children.remove(mainMenuBtns)
-            contentRoot.children.addAll(scoresMenu)
+            switchMenus(mainMenuBtns, scoresMenu)
         } else {
-            contentRoot.children.remove(scoresMenu)
-            contentRoot.children.add(mainMenuBtns)
+            switchMenus(scoresMenu, mainMenuBtns)
         }
         inScoresMenu = !inScoresMenu
     }
@@ -62,5 +54,10 @@ class MainMenuKt : FXGLMenu(MenuType.MAIN_MENU) {
         iv.translateX = TILE_LENGTH * 11.0
         iv.translateY = TILE_LENGTH.toDouble()
         return iv
+    }
+
+    private fun switchMenus(menu1: Pane, menu2: Pane) {
+        contentRoot.children.remove(menu1)
+        contentRoot.children.add(menu2)
     }
 }

@@ -1,7 +1,7 @@
 package com.hbotonds.coin_chaser.ui;
 
 import com.almasb.fxgl.logging.Logger;
-import com.hbotonds.coin_chaser.Main;
+import com.hbotonds.coin_chaser.CoinChaserApp;
 import com.hbotonds.coin_chaser.mongodb.gateway.HighScore;
 import com.mongodb.client.FindIterable;
 import javafx.scene.layout.HBox;
@@ -14,7 +14,7 @@ import lombok.Getter;
 import java.util.stream.StreamSupport;
 
 import static com.almasb.fxgl.dsl.FXGLForKtKt.getUIFactoryService;
-import static com.hbotonds.coin_chaser.Main.TILE_LENGTH;
+import static com.hbotonds.coin_chaser.CoinChaserApp.TILE_LENGTH;
 
 public class TopScoreMenu {
     @Getter
@@ -65,7 +65,7 @@ public class TopScoreMenu {
 
     private FindIterable<HighScore> createTopScoreList() {
         try {
-            return Main.getGateway().findTopScores();
+            return CoinChaserApp.getGateway().findTopScores();
         } catch (Exception e) {
             logger.fatal("An error occurred while attempting to get top score:", e);
             return null;
