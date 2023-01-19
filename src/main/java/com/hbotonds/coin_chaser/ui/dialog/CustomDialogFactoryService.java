@@ -6,6 +6,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
@@ -23,22 +24,28 @@ public class CustomDialogFactoryService extends DialogFactoryService {
 
     @Override
     public Pane messageDialog(String message, Runnable callback) {
-        // TODO: implement
-        return null;
+        var text = getUIFactoryService().newText(message, 40);
+        var btnOK = getUIFactoryService().newButton("OK");
+        btnOK.setOnAction(event -> callback.run());
+
+        var vbox = new VBox(50.0, text, btnOK);
+        vbox.setAlignment(Pos.CENTER);
+
+        return wrap(vbox);
     }
 
     @Override
     public Pane messageDialog(String message) {
-        // TODO: implement
-        return null;
+        return messageDialog(message, () -> {
+        });
     }
 
     @Override
     public Pane confirmationDialog(String message, Consumer<Boolean> callback) {
         var text = getUIFactoryService().newText(message, 40);
-        var btnYes = getUIFactoryService().newButton("yes");
+        var btnYes = getUIFactoryService().newButton("Yes");
         btnYes.setOnAction(event -> callback.accept(true));
-        var btnNo = getUIFactoryService().newButton("no");
+        var btnNo = getUIFactoryService().newButton("No");
         btnNo.setOnAction(event -> callback.accept(false));
         var hbox = new HBox(btnYes, btnNo);
         hbox.setAlignment(Pos.CENTER);
@@ -50,7 +57,7 @@ public class CustomDialogFactoryService extends DialogFactoryService {
     }
 
     private Pane wrap(Node n) {
-        val wrapper = new StackPane(n);
+        var wrapper = new StackPane(n);
         wrapper.setMinWidth(600.0);
         wrapper.setPadding(new Insets(20.0));
         wrapper.getStyleClass().add("dialog-border");
@@ -65,17 +72,48 @@ public class CustomDialogFactoryService extends DialogFactoryService {
 
     @Override
     public Pane inputDialog(String message, Consumer<String> callback) {
-        // TODO: implement
-        return null;
+        return inputDialog(message, s -> true, callback);
     }
 
     @Override
     public Pane inputDialog(String message, Predicate<String> filter, Consumer<String> callback) {
-        try {
-            throw notYetImplementedException;
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        var text = getUIFactoryService().newText(message, 40);
+
+        var field = new TextField();
+        field.setMaxWidth(Math.max(text.getLayoutBounds().getWidth(), 200));
+        field.setFont(getUIFactoryService().newFont(20));
+        field.focusedProperty().addListener((v1, v2, isFocused) -> {
+            if (!isFocused && field.getScene() != null) {
+                field.requestFocus();
+            }
+        });
+        field.sceneProperty().addListener((v1, v2, scene) -> {
+            if (scene != null) {
+                field.requestFocus();
+            }
+        });
+        field.setOnAction(e -> {
+            var newInput = field.getText();
+
+            if (newInput.isEmpty() || !filter.test(newInput)) {
+                return;
+            }
+
+            callback.accept(newInput);
+        });
+
+        var btnOK = getUIFactoryService().newButton("OK");
+        btnOK.setDisable(true);
+        btnOK.setOnAction(e -> callback.accept(field.getText()));
+
+        field.textProperty().addListener((v1, v2, newInput) -> {
+            btnOK.setDisable(newInput.isEmpty() || !filter.test(newInput));
+        });
+
+        var vbox = new VBox(50, text, field, btnOK);
+        vbox.setAlignment(Pos.CENTER);
+
+        return wrap(vbox);
     }
 
     @Override
