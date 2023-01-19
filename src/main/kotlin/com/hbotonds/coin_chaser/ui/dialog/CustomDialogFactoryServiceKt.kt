@@ -40,7 +40,7 @@ class CustomDialogFactoryServiceKt: DialogFactoryService() {
         btnYes.setOnAction { callback.accept(true) }
         btnNo.setOnAction { callback.accept(false) }
 
-        val hBox = HBox(btnYes, btnNo)
+        val hBox = HBox(10.0, btnYes, btnNo)
         hBox.alignment = Pos.CENTER
 
         val vBox = VBox(50.0, text, hBox)

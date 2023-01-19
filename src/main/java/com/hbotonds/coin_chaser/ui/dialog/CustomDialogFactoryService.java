@@ -46,7 +46,7 @@ public class CustomDialogFactoryService extends DialogFactoryService {
         btnYes.setOnAction(event -> callback.accept(true));
         var btnNo = getUIFactoryService().newButton("No");
         btnNo.setOnAction(event -> callback.accept(false));
-        var hbox = new HBox(btnYes, btnNo);
+        var hbox = new HBox(10.0, btnYes, btnNo);
         hbox.setAlignment(Pos.CENTER);
 
         var vbox = new VBox(50.0, text, hbox);
