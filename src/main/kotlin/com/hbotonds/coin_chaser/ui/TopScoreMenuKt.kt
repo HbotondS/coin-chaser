@@ -14,7 +14,7 @@ import javafx.scene.paint.Color
 import javafx.scene.text.Text
 
 class TopScoreMenuKt(toggleHighScores: Runnable) {
-    private val topScoreMenu = Pane()
+    val topScoreMenu = Pane()
     private val toggleHighScores: Runnable
     private val logger = Logger.get(TopScoreMenuKt::class.java)
 
