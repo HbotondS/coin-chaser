@@ -36,8 +36,7 @@ public class CustomDialogFactoryService extends DialogFactoryService {
 
     @Override
     public Pane messageDialog(String message) {
-        return messageDialog(message, () -> {
-        });
+        return messageDialog(message, () -> {});
     }
 
     @Override
@@ -67,7 +66,11 @@ public class CustomDialogFactoryService extends DialogFactoryService {
 
     @Override
     public <T> Pane choiceDialog(String message, Consumer<T> resultCallback, T firstOption, T... options) {
-        return null;
+        try {
+            throw notYetImplementedException;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
