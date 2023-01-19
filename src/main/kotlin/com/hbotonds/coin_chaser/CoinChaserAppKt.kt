@@ -6,6 +6,7 @@ import com.almasb.fxgl.app.scene.FXGLMenu
 import com.almasb.fxgl.app.scene.SceneFactory
 import com.almasb.fxgl.core.util.InputPredicates
 import com.almasb.fxgl.dsl.FXGL.Companion.geti
+import com.almasb.fxgl.dsl.FXGL.Companion.set
 import com.almasb.fxgl.dsl.FXGL.Companion.setLevelFromMap
 import com.almasb.fxgl.dsl.eventBuilder
 import com.almasb.fxgl.dsl.getDialogService
@@ -21,6 +22,7 @@ import com.almasb.fxgl.dsl.spawn
 import com.almasb.fxgl.entity.Entity
 import com.almasb.fxgl.input.virtual.VirtualButton
 import com.almasb.fxgl.logging.Logger
+import com.almasb.fxgl.ui.DialogFactoryService
 import com.hbotonds.coin_chaser.mongodb.DbControllerKt
 import com.hbotonds.coin_chaser.mongodb.gateway.HighScoreGatewayKt
 import com.hbotonds.coin_chaser.mongodb.gateway.HighScoreKt
@@ -28,6 +30,7 @@ import com.hbotonds.coin_chaser.observer.CoinCollectedKt
 import com.hbotonds.coin_chaser.observer.NextLevelKt
 import com.hbotonds.coin_chaser.observer.ScoreKt
 import com.hbotonds.coin_chaser.ui.MainMenuKt
+import com.hbotonds.coin_chaser.ui.dialog.CustomDialogFactoryServiceKt
 import com.mongodb.MongoServerUnavailableException
 import javafx.scene.input.KeyCode
 import javafx.scene.paint.Color
@@ -61,6 +64,8 @@ class CoinChaserAppKt : GameApplication() {
         settings.title = "Coin Chaser"
         settings.version = "1.0-SNAPSHOT"
         settings.isMainMenuEnabled = true
+
+        settings.setEngineServiceProvider(DialogFactoryService::class.java, CustomDialogFactoryServiceKt::class.java)
 
         settings.sceneFactory = object : SceneFactory() {
             override fun newMainMenu(): FXGLMenu {
