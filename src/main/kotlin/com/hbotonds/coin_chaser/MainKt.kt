@@ -19,13 +19,17 @@ import com.almasb.fxgl.dsl.spawn
 import com.almasb.fxgl.entity.Entity
 import com.almasb.fxgl.input.virtual.VirtualButton
 import com.almasb.fxgl.logging.Logger
+import com.hbotonds.coin_chaser.mongodb.DbControllerKt
+import com.hbotonds.coin_chaser.mongodb.gateway.HighScoreGatewayKt
 import com.hbotonds.coin_chaser.observer.CoinCollectedKt
 import com.hbotonds.coin_chaser.observer.NextLevelKt
 import com.hbotonds.coin_chaser.observer.ScoreKt
 import com.hbotonds.coin_chaser.ui.MainMenuKt
+import com.mongodb.MongoServerUnavailableException
 import javafx.scene.input.KeyCode
 import javafx.scene.paint.Color
 import kotlin.collections.set
+import kotlin.concurrent.thread
 
 class MainKt: GameApplication() {
     private lateinit var player: Entity
@@ -35,6 +39,12 @@ class MainKt: GameApplication() {
     companion object {
         @JvmStatic
         val TILE_LENGTH = 128
+
+        @JvmStatic
+        lateinit var controller: DbControllerKt
+
+        @JvmStatic
+        lateinit var gateway: HighScoreGatewayKt
     }
 
     private val APP_HEIGHT = 15 * TILE_LENGTH
@@ -136,5 +146,13 @@ class MainKt: GameApplication() {
 }
 
 fun main(args: Array<String>) {
+    thread(start = true) {
+        MainKt.controller = DbControllerKt()
+        try {
+            MainKt.gateway = HighScoreGatewayKt(MainKt.controller.getCollection())
+        } catch (e: MongoServerUnavailableException) {
+            e.printStackTrace()
+        }
+    }
     GameApplication.launch(MainKt::class.java, args)
 }

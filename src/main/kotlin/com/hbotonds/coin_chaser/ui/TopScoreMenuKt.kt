@@ -58,7 +58,7 @@ class TopScoreMenuKt(toggleHighScores: Runnable) {
 
     private fun createTopScoreList(): FindIterable<HighScoreKt>? {
         try {
-            return MainKt.getGatewat().findTopScores()
+            return MainKt.gateway.findTopScores()
         } catch (e: Exception) {
             logger.fatal("An error occurred while attempting to get top score:", e)
             return null
