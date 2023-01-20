@@ -26,9 +26,20 @@ public class DbController {
     private MongoClient client;
     private boolean connectionSuccessful;
 
-    public DbController() {
+    private static DbController instance;
+
+    private DbController() {
         this.connect();
     }
+
+    public static DbController getInstance() {
+        if (instance == null) {
+            instance = new DbController();
+        }
+
+        return instance;
+    }
+
 
     private void connect() {
         var connectionString = new ConnectionString("mongodb://localhost:6969/");

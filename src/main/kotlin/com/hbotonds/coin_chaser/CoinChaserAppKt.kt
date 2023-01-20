@@ -6,7 +6,6 @@ import com.almasb.fxgl.app.scene.FXGLMenu
 import com.almasb.fxgl.app.scene.SceneFactory
 import com.almasb.fxgl.core.util.InputPredicates
 import com.almasb.fxgl.dsl.FXGL.Companion.geti
-import com.almasb.fxgl.dsl.FXGL.Companion.set
 import com.almasb.fxgl.dsl.FXGL.Companion.setLevelFromMap
 import com.almasb.fxgl.dsl.eventBuilder
 import com.almasb.fxgl.dsl.getDialogService
@@ -46,9 +45,6 @@ class CoinChaserAppKt : GameApplication() {
     companion object {
         @JvmStatic
         val TILE_LENGTH = 128
-
-        @JvmStatic
-        lateinit var controller: DbControllerKt
 
         @JvmStatic
         lateinit var gateway: HighScoreGatewayKt
@@ -168,9 +164,8 @@ class CoinChaserAppKt : GameApplication() {
 
 fun main(args: Array<String>) {
     thread(start = true) {
-        CoinChaserAppKt.controller = DbControllerKt()
         try {
-            CoinChaserAppKt.gateway = HighScoreGatewayKt(CoinChaserAppKt.controller.getCollection())
+            CoinChaserAppKt.gateway = HighScoreGatewayKt(DbControllerKt.getCollection())
         } catch (e: MongoServerUnavailableException) {
             e.printStackTrace()
         }

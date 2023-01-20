@@ -43,7 +43,6 @@ public class CoinChaserApp extends GameApplication {
 
     private Entity player;
     private CoinCollected coinCollected;
-    private static DbController controller;
 
     @Getter
     private static HighScoreGateway gateway;
@@ -170,9 +169,8 @@ public class CoinChaserApp extends GameApplication {
 
     public static void main(String[] args) {
         new Thread(() -> {
-            controller = new DbController();
             try {
-                gateway = new HighScoreGateway(controller.getCollection());
+                gateway = new HighScoreGateway(DbController.getInstance().getCollection());
             } catch (MongoServerUnavailableException e) {
                 e.printStackTrace();
             }
