@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>com.hbotonds.coin_chaser.mongodb.DbController</OriginalElement>
+  <nodes>
+    <node x="-68.0" y="-14.5">com.hbotonds.coin_chaser.mongodb.DbController</node>
+  </nodes>
+  <notes />
+  <edges />
+  <settings layout="Hierarchic" zoom="1.0" showDependencies="false" x="79.5" y="101.5" />
+  <SelectedNodes>
+    <node>com.hbotonds.coin_chaser.mongodb.DbController</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Constructors</Category>
+    <Category>Fields</Category>
+    <Category>Methods</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>com.hbotonds.coin_chaser.mongodb.gateway.HighScore</OriginalElement>
+  <nodes>
+    <node x="-329.22426642686133" y="-70.0">com.hbotonds.coin_chaser.mongodb.gateway.HighScore</node>
+    <node x="-41.0" y="-15.0">com.hbotonds.coin_chaser.mongodb.gateway.HighScoreGateway</node>
+  </nodes>
+  <notes />
+  <edges />
+  <settings layout="Hierarchic" zoom="1.0" showDependencies="true" x="69.5" y="213.5" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Fields</Category>
+    <Category>Methods</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

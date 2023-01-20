@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>C:/Users/hegyib/Desktop/UNI/coin-chaser/src/main/java/com/hbotonds/coin_chaser/observer</OriginalElement>
+  <nodes>
+    <node x="-357.2745211270975" y="72.27963324448652">com.hbotonds.coin_chaser.observer.Score</node>
+    <node x="7.141597724954664" y="38.77963324448652">com.hbotonds.coin_chaser.observer.CoinCollected</node>
+    <node x="-173.5028054077395" y="72.27963324448652">com.hbotonds.coin_chaser.observer.NextLevel</node>
+    <node x="-275.88837024770123" y="-47.752624814209625">com.hbotonds.coin_chaser.observer.CoinObserver</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="com.hbotonds.coin_chaser.observer.CoinCollected" target="com.hbotonds.coin_chaser.observer.CoinObserver" relationship="TO_MANY">
+      <point x="0.0" y="-60.5" />
+      <point x="128.14159772495466" y="-20.752624814209625" />
+      <point x="70.5" y="0.0" />
+    </edge>
+    <edge source="com.hbotonds.coin_chaser.observer.Score" target="com.hbotonds.coin_chaser.observer.CoinObserver" relationship="REALIZATION">
+      <point x="-4.7887290247672354E-4" y="-27.000285267014476" />
+      <point x="-297.275" y="36.0" />
+      <point x="-205.38866326741845" y="36.0" />
+      <point x="-2.9301971723327824E-4" y="26.999624814209625" />
+    </edge>
+    <edge source="com.hbotonds.coin_chaser.observer.NextLevel" target="com.hbotonds.coin_chaser.observer.CoinObserver" relationship="REALIZATION">
+      <point x="-1.9459226051310452E-4" y="-26.999633244486517" />
+      <point x="-113.503" y="36.0" />
+      <point x="-205.38866326741845" y="36.0" />
+      <point x="-2.9301971723327824E-4" y="26.999624814209625" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic" zoom="1.0" showDependencies="true" x="-54.0" y="56.0" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Fields</Category>
+    <Category>Methods</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
